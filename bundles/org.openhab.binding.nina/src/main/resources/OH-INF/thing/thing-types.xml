@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thing:thing-descriptions bindingId="nina"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
+	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
+
+	<!-- Sample Thing Type -->
+	<thing-type id="nina">
+		<label>Nina Binding Thing</label>
+		<description>Sample thing for Nina Binding</description>
+
+		<channels>
+			<channel id="warning" typeId="warning"/>
+			<channel id="version" typeId="version"/>
+			<channel id="headline" typeId="headline"/>
+			<channel id="provider" typeId="provider"/>
+			<channel id="severity" typeId="severity"/>
+			<channel id="msgType" typeId="msgType"/>
+		</channels>
+
+		<config-description>
+			<parameter name="refreshInterval" type="integer" required="true">
+				<label>ARS</label>
+				<description>Amtlicher Regionalschlüssel - kann z.B. von
+					[hier](https://www.xrepository.de/api/xrepository/urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:rs_2021-07-31/download/Regionalschl_ssel_2021-07-31.json)
+					bezogen werden.
+					Die Letzten 7 Stellen müssen dabei mit
+					"0000000" ersetzt werden,
+					weil die Daten nur auf Kreisebene
+					bereitgestellt werden.
+				</description>
+			</parameter>
+			<parameter name="serverUrl" type="text" required="true">
+				<context>network-address</context>
+				<label>Server URL</label>
+				<description>URL of the Nina API</description>
+				<default>https://warnung.bund.de/api31</default>
+				<advanced>true</advanced>
+			</parameter>
+		</config-description>
+	</thing-type>
+
+	<!-- Sample Channel Type -->
+	<channel-type id="warning">
+		<item-type>String</item-type>
+		<label>Warning Message</label><!-- Use uppercase words, except prepositions. 2-3 words, max 25 chars -->
+		<description>Provided waning message for defined ARS</description>
+	</channel-type>
+	<channel-type id="version">
+        <item-type>Number</item-type>
+		<label>Version</label>
+		<description>type: integer format: int32 example: 2</description>
+	</channel-type>
+	<channel-type id="type">
+        <item-type>String</item-type>
+		<label>ID</label>
+		<description>example: ALERT</description>
+	</channel-type>
+	<channel-type id="headline">
+        <item-type>String</item-type>
+		<label>Headline</label>
+		<description>example: Coronavirus; Informationen des Bundesministeriums fuer Gesundheit</description>
+	</channel-type>
+	<channel-type id="provider">
+        <item-type>String</item-type>
+		<label>Provider</label>
+		<description>example: MOWAS</description>
+	</channel-type>
+	<channel-type id="severity">
+        <item-type>String</item-type>
+		<label>Severity</label>
+		<description>example: Minor</description>
+	</channel-type>
+	<channel-type id="msgType">
+        <item-type>String</item-type>
+		<label>Message Type</label>
+		<description>example: Update</description>
+	</channel-type>
+	<!--<channel-type id="version">
+		<label>Version</label>
+		<item-type>Number</item-type>
+		<description>
+		type: integer
+		format: int32
+		example: 2
+		</description>
+		</channel-type>
+		<channel-type id="type">
+		<label>ID</label>
+		<item-type>String</item-type>
+		<description>
+		example: ALERT
+		</description>
+		</channel-type>
+		<channel-type id="headline">
+		<label>Headline</label>
+		<item-type>String</item-type>
+		<description>
+		example: Coronavirus; Informationen des Bundesministeriums fÃ¼r Gesundheit
+		</description>
+		</channel-type>
+		<channel-type id="provider">
+		<label>Provider</label>
+		<item-type>String</item-type>
+		<description>
+		example: MOWAS
+		</description>
+		</channel-type>
+		<channel-type id="severity">
+		<label>Severity</label>
+		<item-type>String</item-type>
+		<description>
+		example: Minor
+		</description>
+		</channel-type>
+		<channel-type id="msgType">
+		<label>Message Type</label>
+		<item-type>String</item-type>
+		<description>
+		example: Update
+		</description>
+		</channel-type> -->
+</thing:thing-descriptions>
