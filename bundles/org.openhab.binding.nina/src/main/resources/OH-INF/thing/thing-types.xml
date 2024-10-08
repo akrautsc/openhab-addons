@@ -45,79 +45,42 @@
 		<item-type>String</item-type>
 		<label>Warning Message</label><!-- Use uppercase words, except prepositions. 2-3 words, max 25 chars -->
 		<description>Provided waning message for defined ARS</description>
+		<state readOnly="true"/>
 	</channel-type>
 	<channel-type id="version">
-        <item-type>Number</item-type>
+		<item-type>Number</item-type>
 		<label>Version</label>
-		<description>type: integer format: int32 example: 2</description>
+		<description>ID of warning.</description>
+		<state readOnly="true"/>
 	</channel-type>
 	<channel-type id="type">
-        <item-type>String</item-type>
-		<label>ID</label>
-		<description>example: ALERT</description>
+		<item-type>String</item-type>
+		<label>type</label>
+		<description>Warning type.</description>
+		<state readOnly="true"/>
 	</channel-type>
 	<channel-type id="headline">
-        <item-type>String</item-type>
+		<item-type>String</item-type>
 		<label>Headline</label>
-		<description>example: Coronavirus; Informationen des Bundesministeriums fuer Gesundheit</description>
+		<description>Warning headline</description>
+		<state readOnly="true"/>
 	</channel-type>
 	<channel-type id="provider">
-        <item-type>String</item-type>
+		<item-type>String</item-type>
 		<label>Provider</label>
-		<description>example: MOWAS</description>
+		<description>Warning provider</description>
+		<state readOnly="true"/>
 	</channel-type>
 	<channel-type id="severity">
-        <item-type>String</item-type>
+		<item-type>String</item-type>
 		<label>Severity</label>
-		<description>example: Minor</description>
+		<description>Warning severity</description>
+		<state readOnly="true"/>
 	</channel-type>
 	<channel-type id="msgType">
-        <item-type>String</item-type>
+		<item-type>String</item-type>
 		<label>Message Type</label>
-		<description>example: Update</description>
+		<description>Message type of warning.</description>
+		<state readOnly="true"/>
 	</channel-type>
-	<!--<channel-type id="version">
-		<label>Version</label>
-		<item-type>Number</item-type>
-		<description>
-		type: integer
-		format: int32
-		example: 2
-		</description>
-		</channel-type>
-		<channel-type id="type">
-		<label>ID</label>
-		<item-type>String</item-type>
-		<description>
-		example: ALERT
-		</description>
-		</channel-type>
-		<channel-type id="headline">
-		<label>Headline</label>
-		<item-type>String</item-type>
-		<description>
-		example: Coronavirus; Informationen des Bundesministeriums fÃ¼r Gesundheit
-		</description>
-		</channel-type>
-		<channel-type id="provider">
-		<label>Provider</label>
-		<item-type>String</item-type>
-		<description>
-		example: MOWAS
-		</description>
-		</channel-type>
-		<channel-type id="severity">
-		<label>Severity</label>
-		<item-type>String</item-type>
-		<description>
-		example: Minor
-		</description>
-		</channel-type>
-		<channel-type id="msgType">
-		<label>Message Type</label>
-		<item-type>String</item-type>
-		<description>
-		example: Update
-		</description>
-		</channel-type> -->
 </thing:thing-descriptions>
