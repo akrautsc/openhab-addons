@@ -58,7 +58,7 @@ public class EventCode  {
       return false;
     }
     EventCode eventCode = (EventCode) o;
-    return Objects.equals(eventCode, eventCode.eventCode) &&
+    return Objects.equals(this.eventCode, eventCode.eventCode) &&
         Objects.equals(image, eventCode.image);
   }
 

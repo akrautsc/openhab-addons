@@ -12,19 +12,38 @@
  */
 package org.openhab.binding.nina.internal;
 
-import org.eclipse.jdt.annotation.NonNullByDefault;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * The {@link NinaConfiguration} class contains fields mapping thing configuration parameters.
  *
  * @author Andre Krautschick - Initial contribution
  */
-@NonNullByDefault
+// @NonNullByDefault
 public class NinaConfiguration {
 
     /**
      * Sample configuration parameters. Replace with your own.
      */
-    public String serverUrl = "";
-    public int refreshInterval = 600;
+    public String serverUrl;
+    public int refreshInterval;
+    public String ars;
+
+    public boolean isValid() {
+        // hostname must be entered and be a URI
+        if ("".equals(serverUrl)) {
+            return false;
+        }
+        try {
+            new URL(serverUrl);
+        } catch (MalformedURLException muex) {
+            return false;
+        }
+        if ("".equals(ars)) {
+            return false;
+        }
+        // refresh interval is positive integer
+        return (refreshInterval > 0);
+    }
 }
