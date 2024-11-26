@@ -24,7 +24,7 @@ import org.openhab.core.thing.ThingTypeUID;
 @NonNullByDefault
 public class NinaBindingConstants {
 
-    private static final String BINDING_ID = "nina";
+    public static final String BINDING_ID = "nina";
 
     // List of all Thing Type UIDs
     public static final ThingTypeUID THING_TYPE_NINA = new ThingTypeUID(BINDING_ID, "nina");
@@ -34,7 +34,17 @@ public class NinaBindingConstants {
     public static final String VERSION_CHANNEL = "version";
     public static final String TYPE_CHANNEL = "type";
     public static final String HEADLINE_CHANNEL = "headline";
+    public static final String DESCRIPTION_CHANNEL = "description";
     public static final String PROVIDER_CHANNEL = "provider";
     public static final String SEVERITY_CHANNEL = "severity";
     public static final String MSG_TYPE_CHANNEL = "msgType";
+    public static final String URGENCY_CHANNEL = "urgency";
+    public static final String EVENT_CHANNEL = "event";
+    public static final String SENT_CHANNEL = "sent";
+    public static final String CATEGORY_CHANNEL = "category";
+    public static final String SENDER_CHANNEL = "sender";
+    public static final String STATUS_CHANNEL = "status";
+    public static final String SCOPE_CHANNEL = "scope";
+    public static final String IDENTIFIER_CHANNEL = "identifier";
+    public static final String CERTAINTY_CHANNEL = "certainty";
 }

@@ -10,12 +10,22 @@
 		<description>Sample thing for Nina Binding</description>
 
 		<channels>
-			<channel id="warning" typeId="warning"/>
-			<channel id="version" typeId="version"/>
-			<channel id="headline" typeId="headline"/>
-			<channel id="provider" typeId="provider"/>
-			<channel id="severity" typeId="severity"/>
-			<channel id="msgType" typeId="msgType"/>
+			<channel id="headline" typeId="headline"/><!-- Taken from ARSOverviewResult -->
+			<channel id="description" typeId="description"/><!-- Taken from Warning -->
+			<channel id="msgType" typeId="msgType"/><!-- Taken from ARSOverviewResult -->
+			<channel id="severity" typeId="severity"/><!-- Taken from ARSOverviewResult -->
+			<channel id="urgency" typeId="urgency"/><!-- Taken from Warning -->
+			<channel id="provider" typeId="provider"/><!-- Taken from ARSOverviewResult -->
+			<channel id="event" typeId="event"/><!-- Taken from Warning -->
+			<channel id="sent" typeId="sent"/><!-- Taken from ARSOverviewResult -->
+			<!-- Advanced channels -->
+			<channel id="version" typeId="version"/><!-- Taken from ARSOverviewResult -->
+			<channel id="category" typeId="category"/><!-- Taken from Warning -->
+			<channel id="sender" typeId="sender"/><!-- Taken from Warning -->
+			<channel id="status" typeId="status"/><!-- Taken from Warning -->
+			<channel id="scope" typeId="scope"/><!-- Taken from Warning -->
+			<channel id="identifier" typeId="identifier"/><!-- Taken from Warning -->
+			<channel id="certainty" typeId="certainty"/><!-- Taken from Warning -->
 		</channels>
 
 		<config-description>
@@ -46,17 +56,12 @@
 		</config-description>
 	</thing-type>
 
-	<!-- Sample Channel Type -->
-	<channel-type id="warning">
-		<item-type>String</item-type>
-		<label>Warning Message</label><!-- Use uppercase words, except prepositions. 2-3 words, max 25 chars -->
-		<description>Provided waning message for defined ARS</description>
-		<state readOnly="true"/>
-	</channel-type>
-	<channel-type id="version">
+
+	<!-- Custom Channel Types -->
+	<channel-type id="version" advanced="true">
 		<item-type>Number</item-type>
 		<label>Version</label>
-		<description>ID of warning.</description>
+		<description>Version of warning.</description>
 		<state readOnly="true"/>
 	</channel-type>
 	<channel-type id="type">
@@ -69,6 +74,12 @@
 		<item-type>String</item-type>
 		<label>Headline</label>
 		<description>Warning headline</description>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="description">
+		<item-type>String</item-type>
+		<label>Description</label>
+		<description>Warning description</description>
 		<state readOnly="true"/>
 	</channel-type>
 	<channel-type id="provider">
@@ -87,6 +98,66 @@
 		<item-type>String</item-type>
 		<label>Message Type</label>
 		<description>Message type of warning.</description>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="identifier" advanced="true">
+		<item-type>String</item-type>
+		<label>Identifier</label>
+		<description></description>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="sender" advanced="true">
+		<item-type>String</item-type>
+		<label>Sender</label>
+		<description></description>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="sent">
+		<item-type>DateTime</item-type>
+		<label>Sent</label>
+		<description></description>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="status" advanced="true">
+		<item-type>String</item-type>
+		<label>Status</label>
+		<description></description>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="scope" advanced="true">
+		<item-type>String</item-type>
+		<label>Scope</label>
+		<description></description>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="category" advanced="true">
+		<item-type>String</item-type>
+		<label>Category</label>
+		<description></description>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="event">
+		<item-type>String</item-type>
+		<label>Event</label>
+		<description></description>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="urgency">
+		<item-type>String</item-type>
+		<label>Urgency</label>
+		<description></description>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="certainty" advanced="true">
+		<item-type>String</item-type>
+		<label>Certainty</label>
+		<description></description>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="TEST">
+		<item-type>String</item-type>
+		<label>TEST</label>
+		<description>TEST</description>
 		<state readOnly="true"/>
 	</channel-type>
 </thing:thing-descriptions>
