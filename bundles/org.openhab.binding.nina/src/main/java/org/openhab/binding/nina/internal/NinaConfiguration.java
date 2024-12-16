@@ -23,12 +23,33 @@ import java.net.URL;
 // @NonNullByDefault
 public class NinaConfiguration {
 
-    /**
-     * Sample configuration parameters. Replace with your own.
-     */
-    public String serverUrl;
-    public int refreshInterval;
-    public String ars;
+    private String serverUrl;
+    private int refreshInterval;
+    private String ars;
+
+    public String getServerUrl() {
+        return serverUrl;
+    }
+
+    public void setServerUrl(String serverUrl) {
+        this.serverUrl = serverUrl;
+    }
+
+    public int getRefreshInterval() {
+        return refreshInterval;
+    }
+
+    public void setRefreshInterval(int refreshInterval) {
+        this.refreshInterval = refreshInterval;
+    }
+
+    public String getArs() {
+        return ars.substring(0, 5) + "0000000";
+    }
+
+    public void setArs(String ars) {
+        this.ars = ars;
+    }
 
     public boolean isValid() {
         // hostname must be entered and be a URI

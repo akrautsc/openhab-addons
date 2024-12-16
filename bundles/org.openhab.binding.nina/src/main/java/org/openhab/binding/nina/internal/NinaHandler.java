@@ -98,8 +98,8 @@ public class NinaHandler extends BaseThingHandler {
         // the framework is then able to reuse the resources from the thing handler initialization.
         // we set this upfront to reliably check status updates in unit tests.
 
-        createChannelSet(5);
-        refreshJob = scheduler.scheduleWithFixedDelay(this::pollingArsOverviewResult, 0, config.refreshInterval,
+        // createChannelSet(5);
+        refreshJob = scheduler.scheduleWithFixedDelay(this::pollingArsOverviewResult, 0, config.getRefreshInterval(),
                 TimeUnit.SECONDS);
 
         // These logging types should be primarily used by bindings
@@ -127,14 +127,14 @@ public class NinaHandler extends BaseThingHandler {
 
     private void pollingArsOverviewResult() {
         ARSOverviewResultInner[] arsOverviewResult = sendRequest(
-                config.serverUrl + "/dashboard/" + config.ars + ".json", ARSOverviewResultInner[].class);
+                config.getServerUrl() + "/dashboard/" + config.getArs() + ".json", ARSOverviewResultInner[].class);
 
         if (arsOverviewResult == null) {
             return;
         } else if (arsOverviewResult.length <= 0) {
-            updateStatus(ThingStatus.ONLINE);
             return;
         }
+        updateStatus(ThingStatus.ONLINE);
 
         for (ARSOverviewResultInner inner : arsOverviewResult) {
             String innerString = inner.toString();
@@ -154,7 +154,7 @@ public class NinaHandler extends BaseThingHandler {
     }
 
     private void pollingWarningDetails(String id) {
-        Warning warning = sendRequest(config.serverUrl + "/warnings/" + id + ".json", Warning.class);
+        Warning warning = sendRequest(config.getServerUrl() + "/warnings/" + id + ".json", Warning.class);
         if (warning == null) {
             return;
         }
@@ -169,7 +169,7 @@ public class NinaHandler extends BaseThingHandler {
         updateState(CERTAINTY_CHANNEL, new StringType());
         updateState(IDENTIFIER_CHANNEL, new StringType(warning.getIdentifier()));
 
-        // logger.debug("{}", warning.toString());
+        logger.debug("{}", warning.toString());
     }
 
     private <T> T sendRequest(String url, Class<T> t) {

@@ -29,15 +29,11 @@
 		</channels>
 
 		<config-description>
-			<parameter name="ars" type="text" pattern="[0-9]{5}0{7}" required="true">
+			<parameter name="ars" type="text" pattern="[0-9]{12}" required="true">
 				<label>ARS</label>
 				<description>Amtlicher Regionalschlüssel - kann z.B. von
 					[hier](https://www.xrepository.de/api/xrepository/urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:rs_2021-07-31/download/Regionalschl_ssel_2021-07-31.json)
 					bezogen werden.
-					Die Letzten 7 Stellen müssen dabei mit
-					"0000000" ersetzt werden,
-					weil die Daten nur auf Kreisebene
-					bereitgestellt werden.
 				</description>
 			</parameter>
 			<parameter name="serverUrl" type="text" required="true">
