@@ -24,6 +24,7 @@ import java.net.URL;
 public class NinaConfiguration {
 
     private String serverUrl;
+    private int numberWarningSets;
     private int refreshInterval;
     private String ars;
 
@@ -33,6 +34,14 @@ public class NinaConfiguration {
 
     public void setServerUrl(String serverUrl) {
         this.serverUrl = serverUrl;
+    }
+
+    public int getNumberWarningSets() {
+        return numberWarningSets;
+    }
+
+    public void setNumberWarningSets(int numberWarningSets) {
+        this.numberWarningSets = numberWarningSets;
     }
 
     public int getRefreshInterval() {

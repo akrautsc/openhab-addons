@@ -9,24 +9,24 @@
 		<label>Nina Binding Thing</label>
 		<description>Sample thing for Nina Binding</description>
 
-		<channels>
-			<channel id="headline" typeId="headline"/><!-- Taken from ARSOverviewResult -->
-			<channel id="description" typeId="description"/><!-- Taken from Warning -->
-			<channel id="msgType" typeId="msgType"/><!-- Taken from ARSOverviewResult -->
-			<channel id="severity" typeId="severity"/><!-- Taken from ARSOverviewResult -->
-			<channel id="urgency" typeId="urgency"/><!-- Taken from Warning -->
-			<channel id="provider" typeId="provider"/><!-- Taken from ARSOverviewResult -->
-			<channel id="event" typeId="event"/><!-- Taken from Warning -->
-			<channel id="sent" typeId="sent"/><!-- Taken from ARSOverviewResult -->
-			<!-- Advanced channels -->
-			<channel id="version" typeId="version"/><!-- Taken from ARSOverviewResult -->
-			<channel id="category" typeId="category"/><!-- Taken from Warning -->
-			<channel id="sender" typeId="sender"/><!-- Taken from Warning -->
-			<channel id="status" typeId="status"/><!-- Taken from Warning -->
-			<channel id="scope" typeId="scope"/><!-- Taken from Warning -->
-			<channel id="identifier" typeId="identifier"/><!-- Taken from Warning -->
-			<channel id="certainty" typeId="certainty"/><!-- Taken from Warning -->
-		</channels>
+		<!-- <channels> -->
+		<!-- <channel id="headline" typeId="headline"/>&lt;!&ndash; Taken from ARSOverviewResult &ndash;&gt; -->
+		<!-- <channel id="description" typeId="description"/>&lt;!&ndash; Taken from Warning &ndash;&gt; -->
+		<!-- <channel id="msgType" typeId="msgType"/>&lt;!&ndash; Taken from ARSOverviewResult &ndash;&gt; -->
+		<!-- <channel id="severity" typeId="severity"/>&lt;!&ndash; Taken from ARSOverviewResult &ndash;&gt; -->
+		<!-- <channel id="urgency" typeId="urgency"/>&lt;!&ndash; Taken from Warning &ndash;&gt; -->
+		<!-- <channel id="provider" typeId="provider"/>&lt;!&ndash; Taken from ARSOverviewResult &ndash;&gt; -->
+		<!-- <channel id="event" typeId="event"/>&lt;!&ndash; Taken from Warning &ndash;&gt; -->
+		<!-- <channel id="sent" typeId="sent"/>&lt;!&ndash; Taken from ARSOverviewResult &ndash;&gt; -->
+		<!-- &lt;!&ndash; Advanced channels &ndash;&gt; -->
+		<!-- <channel id="version" typeId="version"/>&lt;!&ndash; Taken from ARSOverviewResult &ndash;&gt; -->
+		<!-- <channel id="category" typeId="category"/>&lt;!&ndash; Taken from Warning &ndash;&gt; -->
+		<!-- <channel id="sender" typeId="sender"/>&lt;!&ndash; Taken from Warning &ndash;&gt; -->
+		<!-- <channel id="status" typeId="status"/>&lt;!&ndash; Taken from Warning &ndash;&gt; -->
+		<!-- <channel id="scope" typeId="scope"/>&lt;!&ndash; Taken from Warning &ndash;&gt; -->
+		<!-- <channel id="identifier" typeId="identifier"/>&lt;!&ndash; Taken from Warning &ndash;&gt; -->
+		<!-- <channel id="certainty" typeId="certainty"/>&lt;!&ndash; Taken from Warning &ndash;&gt; -->
+		<!-- </channels> -->
 
 		<config-description>
 			<parameter name="ars" type="text" pattern="[0-9]{12}" required="true">
@@ -35,6 +35,12 @@
 					[hier](https://www.xrepository.de/api/xrepository/urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:rs_2021-07-31/download/Regionalschl_ssel_2021-07-31.json)
 					bezogen werden.
 				</description>
+			</parameter>
+			<parameter name="numberWarningSets" type="integer" required="true">
+				<label>Number of Warnings sets</label>
+				<description>Number of warning channel sets.</description>
+				<default>3</default>
+				<advanced>true</advanced>
 			</parameter>
 			<parameter name="serverUrl" type="text" required="true">
 				<context>network-address</context>

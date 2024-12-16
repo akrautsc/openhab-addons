@@ -136,40 +136,48 @@ public class NinaHandler extends BaseThingHandler {
         }
         updateStatus(ThingStatus.ONLINE);
 
-        for (ARSOverviewResultInner inner : arsOverviewResult) {
-            String innerString = inner.toString();
-            logger.debug(innerString);
-            // pollingWarningDetails(inner.getId());
-        }
-        pollingWarningDetails(arsOverviewResult[0].getId());
+        logger.debug("Number of results: {}", arsOverviewResult.length);
+        for (int index = 0; index < arsOverviewResult.length && index < config.getNumberWarningSets(); index++) {
+            logger.debug("Parse entry no. {}", index);
+            createChannelSet(index);
+            ARSOverviewResultInner resultInner = arsOverviewResult[index];
+            // logger.debug("{}", resultInner.toString());
 
-        updateState(HEADLINE_CHANNEL, new StringType(arsOverviewResult[0].getPayload().getData().getHeadline()));
-        updateState(VERSION_CHANNEL, new DecimalType(arsOverviewResult[0].getPayload().getVersion()));
-        updateState(TYPE_CHANNEL, new StringType(arsOverviewResult[0].getPayload().getData().getHeadline()));
-        updateState(PROVIDER_CHANNEL, new StringType(arsOverviewResult[0].getPayload().getData().getProvider()));
-        updateState(SEVERITY_CHANNEL, new StringType(arsOverviewResult[0].getPayload().getData().getSeverity()));
-        updateState(MSG_TYPE_CHANNEL, new StringType(arsOverviewResult[0].getPayload().getData().getMsgType()));
-        updateState(SENT_CHANNEL,
-                new DateTimeType(arsOverviewResult[0].getSent().toInstant().atZone(ZoneId.systemDefault())));
+            pollingWarningDetails(arsOverviewResult[index].getId(), index);
+
+            updateState(HEADLINE_CHANNEL + index,
+                    new StringType(arsOverviewResult[index].getPayload().getData().getHeadline()));
+            updateState(VERSION_CHANNEL + index, new DecimalType(arsOverviewResult[index].getPayload().getVersion()));
+            updateState(TYPE_CHANNEL + index,
+                    new StringType(arsOverviewResult[index].getPayload().getData().getHeadline()));
+            updateState(PROVIDER_CHANNEL + index,
+                    new StringType(arsOverviewResult[index].getPayload().getData().getProvider()));
+            updateState(SEVERITY_CHANNEL + index,
+                    new StringType(arsOverviewResult[index].getPayload().getData().getSeverity()));
+            updateState(MSG_TYPE_CHANNEL + index,
+                    new StringType(arsOverviewResult[index].getPayload().getData().getMsgType()));
+            updateState(SENT_CHANNEL + index,
+                    new DateTimeType(arsOverviewResult[index].getSent().toInstant().atZone(ZoneId.systemDefault())));
+        }
     }
 
-    private void pollingWarningDetails(String id) {
+    private void pollingWarningDetails(String id, int index) {
         Warning warning = sendRequest(config.getServerUrl() + "/warnings/" + id + ".json", Warning.class);
         if (warning == null) {
             return;
         }
         WarningInfoInner warningInfo = warning.getInfo().get(0);
-        updateState(DESCRIPTION_CHANNEL, new StringType(warningInfo.getDescription()));
-        updateState(URGENCY_CHANNEL, new StringType(warningInfo.getUrgency()));
-        updateState(CATEGORY_CHANNEL, new StringType(warningInfo.getCategory().toString()));
-        updateState(EVENT_CHANNEL, new StringType(warningInfo.getEvent()));
-        updateState(SENDER_CHANNEL, new StringType(warning.getSender()));
-        updateState(STATUS_CHANNEL, new StringType(warning.getStatus()));
-        updateState(SCOPE_CHANNEL, new StringType(warning.getScope()));
-        updateState(CERTAINTY_CHANNEL, new StringType());
-        updateState(IDENTIFIER_CHANNEL, new StringType(warning.getIdentifier()));
+        updateState(DESCRIPTION_CHANNEL + index, new StringType(warningInfo.getDescription()));
+        updateState(URGENCY_CHANNEL + index, new StringType(warningInfo.getUrgency()));
+        updateState(CATEGORY_CHANNEL + index, new StringType(warningInfo.getCategory().toString()));
+        updateState(EVENT_CHANNEL + index, new StringType(warningInfo.getEvent()));
+        updateState(SENDER_CHANNEL + index, new StringType(warning.getSender()));
+        updateState(STATUS_CHANNEL + index, new StringType(warning.getStatus()));
+        updateState(SCOPE_CHANNEL + index, new StringType(warning.getScope()));
+        updateState(CERTAINTY_CHANNEL + index, new StringType());
+        updateState(IDENTIFIER_CHANNEL + index, new StringType(warning.getIdentifier()));
 
-        logger.debug("{}", warning.toString());
+        // logger.debug("{}", warning.toString());
     }
 
     private <T> T sendRequest(String url, Class<T> t) {
@@ -182,7 +190,7 @@ public class NinaHandler extends BaseThingHandler {
             } else {
                 updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR,
                         "No valid response from Nina API.");
-                logger.debug("Received response: {}", response.getContentAsString());
+                logger.debug("Received status {} and response: {}", response.getStatus(), response.getContentAsString());
             }
         } catch (InterruptedException | TimeoutException | ExecutionException e) {
             updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR,
@@ -197,34 +205,37 @@ public class NinaHandler extends BaseThingHandler {
         ThingHandlerCallback callback = getCallback();
         if (callback != null) {
             ThingBuilder builder = editThing();
-            builder.withChannel(createChannel(callback, HEADLINE_CHANNEL, "Headline", number));
-            builder.withChannel(createChannel(callback, VERSION_CHANNEL, "Version", number));
-            builder.withChannel(createChannel(callback, TYPE_CHANNEL, "Type", number));
-            builder.withChannel(createChannel(callback, PROVIDER_CHANNEL, "Provider", number));
-            builder.withChannel(createChannel(callback, SEVERITY_CHANNEL, "Severity", number));
-            builder.withChannel(createChannel(callback, MSG_TYPE_CHANNEL, "MsgType", number));
-            builder.withChannel(createChannel(callback, SENT_CHANNEL, "Sent", number));
-            builder.withChannel(createChannel(callback, DESCRIPTION_CHANNEL, "Description", number));
-            builder.withChannel(createChannel(callback, URGENCY_CHANNEL, "Urgency", number));
-            builder.withChannel(createChannel(callback, CATEGORY_CHANNEL, "Category", number));
-            builder.withChannel(createChannel(callback, EVENT_CHANNEL, "Event", number));
-            builder.withChannel(createChannel(callback, SENDER_CHANNEL, "Sender", number));
-            builder.withChannel(createChannel(callback, STATUS_CHANNEL, "Status", number));
-            builder.withChannel(createChannel(callback, SCOPE_CHANNEL, "Scope", number));
-            builder.withChannel(createChannel(callback, CERTAINTY_CHANNEL, "Certainty", number));
-            builder.withChannel(createChannel(callback, IDENTIFIER_CHANNEL, "ID", number));
+            createChannel(callback, builder, HEADLINE_CHANNEL, "Headline", number);
+            createChannel(callback, builder, VERSION_CHANNEL, "Version", number);
+            createChannel(callback, builder, TYPE_CHANNEL, "Type", number);
+            createChannel(callback, builder, PROVIDER_CHANNEL, "Provider", number);
+            createChannel(callback, builder, SEVERITY_CHANNEL, "Severity", number);
+            createChannel(callback, builder, MSG_TYPE_CHANNEL, "MsgType", number);
+            createChannel(callback, builder, SENT_CHANNEL, "Sent", number);
+            createChannel(callback, builder, DESCRIPTION_CHANNEL, "Description", number);
+            createChannel(callback, builder, URGENCY_CHANNEL, "Urgency", number);
+            createChannel(callback, builder, CATEGORY_CHANNEL, "Category", number);
+            createChannel(callback, builder, EVENT_CHANNEL, "Event", number);
+            createChannel(callback, builder, SENDER_CHANNEL, "Sender", number);
+            createChannel(callback, builder, STATUS_CHANNEL, "Status", number);
+            createChannel(callback, builder, SCOPE_CHANNEL, "Scope", number);
+            createChannel(callback, builder, CERTAINTY_CHANNEL, "Certainty", number);
+            createChannel(callback, builder, IDENTIFIER_CHANNEL, "ID", number);
             updateThing(builder.build());
         }
     }
 
-    private Channel createChannel(ThingHandlerCallback cb, String channelId, String label, int number) {
+    private void createChannel(ThingHandlerCallback cb, ThingBuilder builder, String channelId, String label,
+            int number) {
         ChannelUID channelUID = getChannelUid(channelId, number);
         Channel existingChannel = getThing().getChannel(channelUID);
-        if (existingChannel != null) {
-            editThing().withoutChannel(channelUID);
+        if (existingChannel == null) {
+            builder.withChannel(cb.createChannelBuilder(channelUID, getChannelTypeUid(channelId))
+                    .withLabel(label + "_" + number).build());
         }
-        return cb.createChannelBuilder(channelUID, getChannelTypeUid(channelId)).withLabel(label + "_" + number)
-                .build();
+        // else {
+        // builder.withoutChannel(channelUID);
+        // }
     }
 
     private ChannelUID getChannelUid(String channelId, int number) {
