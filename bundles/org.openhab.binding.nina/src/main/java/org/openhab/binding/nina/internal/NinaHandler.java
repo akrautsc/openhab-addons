@@ -136,36 +136,36 @@ public class NinaHandler extends BaseThingHandler {
         }
         updateStatus(ThingStatus.ONLINE);
 
-        logger.debug("Number of results: {}", arsOverviewResult.length);
+        logger.info("Number of results: {}", arsOverviewResult.length);
         for (int index = 0; index < arsOverviewResult.length && index < config.getNumberWarningSets(); index++) {
-            logger.debug("Parse entry no. {}", index);
+            logger.info("Parse entry no. {}", index);
             createChannelSet(index);
-            ARSOverviewResultInner resultInner = arsOverviewResult[index];
-            // logger.debug("{}", resultInner.toString());
+            ARSOverviewResultInner arsOverviewResultInner = arsOverviewResult[index];
+            logger.trace("{}", arsOverviewResultInner.toString());
 
-            pollingWarningDetails(arsOverviewResult[index].getId(), index);
-
-            updateState(HEADLINE_CHANNEL + index,
-                    new StringType(arsOverviewResult[index].getPayload().getData().getHeadline()));
-            updateState(VERSION_CHANNEL + index, new DecimalType(arsOverviewResult[index].getPayload().getVersion()));
-            updateState(TYPE_CHANNEL + index,
-                    new StringType(arsOverviewResult[index].getPayload().getData().getHeadline()));
-            updateState(PROVIDER_CHANNEL + index,
-                    new StringType(arsOverviewResult[index].getPayload().getData().getProvider()));
-            updateState(SEVERITY_CHANNEL + index,
-                    new StringType(arsOverviewResult[index].getPayload().getData().getSeverity()));
-            updateState(MSG_TYPE_CHANNEL + index,
-                    new StringType(arsOverviewResult[index].getPayload().getData().getMsgType()));
-            updateState(SENT_CHANNEL + index,
-                    new DateTimeType(arsOverviewResult[index].getSent().toInstant().atZone(ZoneId.systemDefault())));
+            Warning warning = sendRequest(
+                    config.getServerUrl() + "/warnings/" + arsOverviewResultInner.getId() + ".json", Warning.class);
+            logger.trace("{}", warning.toString());
+            updateChannels(arsOverviewResultInner, warning, index);
         }
     }
 
-    private void pollingWarningDetails(String id, int index) {
-        Warning warning = sendRequest(config.getServerUrl() + "/warnings/" + id + ".json", Warning.class);
-        if (warning == null) {
+    private void updateChannels(ARSOverviewResultInner arsOverviewResultInner, Warning warning, int index) {
+        if (arsOverviewResultInner == null || warning == null) {
             return;
         }
+        updateState(HEADLINE_CHANNEL + index,
+                new StringType(arsOverviewResultInner.getPayload().getData().getHeadline()));
+        updateState(VERSION_CHANNEL + index, new DecimalType(arsOverviewResultInner.getPayload().getVersion()));
+        updateState(TYPE_CHANNEL + index, new StringType(arsOverviewResultInner.getPayload().getData().getHeadline()));
+        updateState(PROVIDER_CHANNEL + index,
+                new StringType(arsOverviewResultInner.getPayload().getData().getProvider()));
+        updateState(SEVERITY_CHANNEL + index,
+                new StringType(arsOverviewResultInner.getPayload().getData().getSeverity()));
+        updateState(MSG_TYPE_CHANNEL + index,
+                new StringType(arsOverviewResultInner.getPayload().getData().getMsgType()));
+        updateState(SENT_CHANNEL + index,
+                new DateTimeType(arsOverviewResultInner.getSent().toInstant().atZone(ZoneId.systemDefault())));
         WarningInfoInner warningInfo = warning.getInfo().get(0);
         updateState(DESCRIPTION_CHANNEL + index, new StringType(warningInfo.getDescription()));
         updateState(URGENCY_CHANNEL + index, new StringType(warningInfo.getUrgency()));
@@ -176,8 +176,6 @@ public class NinaHandler extends BaseThingHandler {
         updateState(SCOPE_CHANNEL + index, new StringType(warning.getScope()));
         updateState(CERTAINTY_CHANNEL + index, new StringType());
         updateState(IDENTIFIER_CHANNEL + index, new StringType(warning.getIdentifier()));
-
-        // logger.debug("{}", warning.toString());
     }
 
     private <T> T sendRequest(String url, Class<T> t) {
@@ -190,7 +188,8 @@ public class NinaHandler extends BaseThingHandler {
             } else {
                 updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR,
                         "No valid response from Nina API.");
-                logger.debug("Received status {} and response: {}", response.getStatus(), response.getContentAsString());
+                logger.debug("Received status {} and response: {}", response.getStatus(),
+                        response.getContentAsString());
             }
         } catch (InterruptedException | TimeoutException | ExecutionException e) {
             updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR,
