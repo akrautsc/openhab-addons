@@ -12,6 +12,9 @@
  */
 package org.openhab.binding.nina.internal;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.core.thing.ThingTypeUID;
 
@@ -47,4 +50,24 @@ public class NinaBindingConstants {
     public static final String SCOPE_CHANNEL = "scope";
     public static final String IDENTIFIER_CHANNEL = "identifier";
     public static final String CERTAINTY_CHANNEL = "certainty";
+
+    public static final Map<String, String> channelMap = new HashMap<>();
+    static {
+        channelMap.put(HEADLINE_CHANNEL, "Headline");
+        channelMap.put(VERSION_CHANNEL, "Version");
+        channelMap.put(TYPE_CHANNEL, "Type");
+        channelMap.put(PROVIDER_CHANNEL, "Provider");
+        channelMap.put(SEVERITY_CHANNEL, "Severity");
+        channelMap.put(MSG_TYPE_CHANNEL, "MsgType");
+        channelMap.put(SENT_CHANNEL, "Sent");
+        channelMap.put(DESCRIPTION_CHANNEL, "Description");
+        channelMap.put(URGENCY_CHANNEL, "Urgency");
+        channelMap.put(CATEGORY_CHANNEL, "Category");
+        channelMap.put(EVENT_CHANNEL, "Event");
+        channelMap.put(SENDER_CHANNEL, "Sender");
+        channelMap.put(STATUS_CHANNEL, "Status");
+        channelMap.put(SCOPE_CHANNEL, "Scope");
+        channelMap.put(CERTAINTY_CHANNEL, "Certainty");
+        channelMap.put(IDENTIFIER_CHANNEL, "ID");
+    }
 }

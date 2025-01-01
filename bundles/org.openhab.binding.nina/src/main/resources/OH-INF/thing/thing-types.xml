@@ -36,12 +36,6 @@
 					bezogen werden.
 				</description>
 			</parameter>
-			<parameter name="numberWarningSets" type="integer" required="true">
-				<label>Number of Warnings sets</label>
-				<description>Number of warning channel sets.</description>
-				<default>3</default>
-				<advanced>true</advanced>
-			</parameter>
 			<parameter name="serverUrl" type="text" required="true">
 				<context>network-address</context>
 				<label>Server URL</label>

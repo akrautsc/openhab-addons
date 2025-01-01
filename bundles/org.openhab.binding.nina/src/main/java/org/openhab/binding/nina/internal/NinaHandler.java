@@ -59,6 +59,8 @@ public class NinaHandler extends BaseThingHandler {
 
     private @Nullable ScheduledFuture<?> refreshJob;
 
+    private int currentChannelSets = 0;
+
     public NinaHandler(Thing thing, HttpClient httpClient) {
         super(thing);
         this.httpClient = httpClient;
@@ -131,29 +133,26 @@ public class NinaHandler extends BaseThingHandler {
 
         if (arsOverviewResult == null) {
             return;
-        } else if (arsOverviewResult.length <= 0) {
-            return;
         }
         updateStatus(ThingStatus.ONLINE);
 
-        logger.info("Number of results: {}", arsOverviewResult.length);
-        for (int index = 0; index < arsOverviewResult.length && index < config.getNumberWarningSets(); index++) {
-            logger.info("Parse entry no. {}", index);
-            createChannelSet(index);
+        int expectedChannelSets = arsOverviewResult.length;
+        logger.trace("Current channel sets: {}. expected channel sets: {}", currentChannelSets, expectedChannelSets);
+        if (expectedChannelSets != currentChannelSets) {
+            createAndRemoveChannelSets(expectedChannelSets);
+            currentChannelSets = expectedChannelSets;
+        }
+        for (int index = 0; index < expectedChannelSets; index++) {
+            logger.debug("Parse entry no. {}", index + 1);
             ARSOverviewResultInner arsOverviewResultInner = arsOverviewResult[index];
-            logger.trace("{}", arsOverviewResultInner.toString());
-
             Warning warning = sendRequest(
                     config.getServerUrl() + "/warnings/" + arsOverviewResultInner.getId() + ".json", Warning.class);
-            logger.trace("{}", warning.toString());
-            updateChannels(arsOverviewResultInner, warning, index);
+            updateChannelSet(arsOverviewResultInner, warning, index + 1);
         }
     }
 
-    private void updateChannels(ARSOverviewResultInner arsOverviewResultInner, Warning warning, int index) {
-        if (arsOverviewResultInner == null || warning == null) {
-            return;
-        }
+    private void updateChannelSet(ARSOverviewResultInner arsOverviewResultInner, Warning warning, int index) {
+        logger.debug("Update channel set {}", index);
         updateState(HEADLINE_CHANNEL + index,
                 new StringType(arsOverviewResultInner.getPayload().getData().getHeadline()));
         updateState(VERSION_CHANNEL + index, new DecimalType(arsOverviewResultInner.getPayload().getVersion()));
@@ -174,8 +173,28 @@ public class NinaHandler extends BaseThingHandler {
         updateState(SENDER_CHANNEL + index, new StringType(warning.getSender()));
         updateState(STATUS_CHANNEL + index, new StringType(warning.getStatus()));
         updateState(SCOPE_CHANNEL + index, new StringType(warning.getScope()));
-        updateState(CERTAINTY_CHANNEL + index, new StringType());
+        updateState(CERTAINTY_CHANNEL + index, new StringType(warningInfo.getCertainty()));
         updateState(IDENTIFIER_CHANNEL + index, new StringType(warning.getIdentifier()));
+    }
+
+    private void clearChannelSet(int index) {
+        logger.debug("Clear channel set {}", index);
+        updateState(HEADLINE_CHANNEL + index, StringType.EMPTY);
+        updateState(VERSION_CHANNEL + index, DecimalType.ZERO);
+        updateState(TYPE_CHANNEL + index, StringType.EMPTY);
+        updateState(PROVIDER_CHANNEL + index, StringType.EMPTY);
+        updateState(SEVERITY_CHANNEL + index, StringType.EMPTY);
+        updateState(MSG_TYPE_CHANNEL + index, StringType.EMPTY);
+        updateState(SENT_CHANNEL + index, new DateTimeType());
+        updateState(DESCRIPTION_CHANNEL + index, StringType.EMPTY);
+        updateState(URGENCY_CHANNEL + index, StringType.EMPTY);
+        updateState(CATEGORY_CHANNEL + index, StringType.EMPTY);
+        updateState(EVENT_CHANNEL + index, StringType.EMPTY);
+        updateState(SENDER_CHANNEL + index, StringType.EMPTY);
+        updateState(STATUS_CHANNEL + index, StringType.EMPTY);
+        updateState(SCOPE_CHANNEL + index, StringType.EMPTY);
+        updateState(CERTAINTY_CHANNEL + index, StringType.EMPTY);
+        updateState(IDENTIFIER_CHANNEL + index, StringType.EMPTY);
     }
 
     private <T> T sendRequest(String url, Class<T> t) {
@@ -183,7 +202,7 @@ public class NinaHandler extends BaseThingHandler {
         try {
             ContentResponse response = this.httpClient.newRequest(url).timeout(5000, TimeUnit.MILLISECONDS).send();
             if (response.getStatus() == HttpStatus.OK_200) {
-                logger.debug("Received response: {}", response.getContentAsString());
+                logger.trace("Received response: {}", response.getContentAsString());
                 result = this.gson.fromJson(response.getContentAsString(), t);
             } else {
                 updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR,
@@ -200,26 +219,32 @@ public class NinaHandler extends BaseThingHandler {
         return result;
     }
 
+    private void createAndRemoveChannelSets(int numberChannelSets) {
+        for (int index = currentChannelSets + 1; index <= numberChannelSets; index++) {
+            logger.debug("Create set {}", index);
+            createChannelSet(index);
+        }
+        for (int index = currentChannelSets; index > numberChannelSets; index--) {
+            logger.debug("Remove set {}", index);
+            clearChannelSet(index);
+            removeChannelSet(index);
+        }
+    }
+
     private void createChannelSet(int number) {
         ThingHandlerCallback callback = getCallback();
         if (callback != null) {
             ThingBuilder builder = editThing();
-            createChannel(callback, builder, HEADLINE_CHANNEL, "Headline", number);
-            createChannel(callback, builder, VERSION_CHANNEL, "Version", number);
-            createChannel(callback, builder, TYPE_CHANNEL, "Type", number);
-            createChannel(callback, builder, PROVIDER_CHANNEL, "Provider", number);
-            createChannel(callback, builder, SEVERITY_CHANNEL, "Severity", number);
-            createChannel(callback, builder, MSG_TYPE_CHANNEL, "MsgType", number);
-            createChannel(callback, builder, SENT_CHANNEL, "Sent", number);
-            createChannel(callback, builder, DESCRIPTION_CHANNEL, "Description", number);
-            createChannel(callback, builder, URGENCY_CHANNEL, "Urgency", number);
-            createChannel(callback, builder, CATEGORY_CHANNEL, "Category", number);
-            createChannel(callback, builder, EVENT_CHANNEL, "Event", number);
-            createChannel(callback, builder, SENDER_CHANNEL, "Sender", number);
-            createChannel(callback, builder, STATUS_CHANNEL, "Status", number);
-            createChannel(callback, builder, SCOPE_CHANNEL, "Scope", number);
-            createChannel(callback, builder, CERTAINTY_CHANNEL, "Certainty", number);
-            createChannel(callback, builder, IDENTIFIER_CHANNEL, "ID", number);
+            channelMap.forEach((channelId, label) -> createChannel(callback, builder, channelId, label, number));
+            updateThing(builder.build());
+        }
+    }
+
+    private void removeChannelSet(int number) {
+        ThingHandlerCallback callback = getCallback();
+        if (callback != null) {
+            ThingBuilder builder = editThing();
+            channelMap.forEach((channelId, label) -> removeChannel(callback, builder, channelId, number));
             updateThing(builder.build());
         }
     }
@@ -230,11 +255,16 @@ public class NinaHandler extends BaseThingHandler {
         Channel existingChannel = getThing().getChannel(channelUID);
         if (existingChannel == null) {
             builder.withChannel(cb.createChannelBuilder(channelUID, getChannelTypeUid(channelId))
-                    .withLabel(label + "_" + number).build());
+                    .withLabel(label + number).build());
         }
-        // else {
-        // builder.withoutChannel(channelUID);
-        // }
+    }
+
+    public void removeChannel(ThingHandlerCallback cb, ThingBuilder builder, String channelId, int number) {
+        ChannelUID channelUID = getChannelUid(channelId, number);
+        Channel existingChannel = getThing().getChannel(channelUID);
+        if (existingChannel != null) {
+            builder.withoutChannel(channelUID);
+        }
     }
 
     private ChannelUID getChannelUid(String channelId, int number) {

@@ -40,7 +40,7 @@ import org.osgi.service.component.annotations.Reference;
 public class NinaHandlerFactory extends BaseThingHandlerFactory {
 
     private static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Set.of(THING_TYPE_NINA);
-    private HttpClient httpClient;
+    private final HttpClient httpClient;
 
     @Activate
     public NinaHandlerFactory(@Reference HttpClientFactory httpClientFactory) {
