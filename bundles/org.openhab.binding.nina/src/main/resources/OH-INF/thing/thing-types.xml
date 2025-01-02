@@ -9,25 +9,6 @@
 		<label>Nina Binding Thing</label>
 		<description>Sample thing for Nina Binding</description>
 
-		<!-- <channels> -->
-		<!-- <channel id="headline" typeId="headline"/>&lt;!&ndash; Taken from ARSOverviewResult &ndash;&gt; -->
-		<!-- <channel id="description" typeId="description"/>&lt;!&ndash; Taken from Warning &ndash;&gt; -->
-		<!-- <channel id="msgType" typeId="msgType"/>&lt;!&ndash; Taken from ARSOverviewResult &ndash;&gt; -->
-		<!-- <channel id="severity" typeId="severity"/>&lt;!&ndash; Taken from ARSOverviewResult &ndash;&gt; -->
-		<!-- <channel id="urgency" typeId="urgency"/>&lt;!&ndash; Taken from Warning &ndash;&gt; -->
-		<!-- <channel id="provider" typeId="provider"/>&lt;!&ndash; Taken from ARSOverviewResult &ndash;&gt; -->
-		<!-- <channel id="event" typeId="event"/>&lt;!&ndash; Taken from Warning &ndash;&gt; -->
-		<!-- <channel id="sent" typeId="sent"/>&lt;!&ndash; Taken from ARSOverviewResult &ndash;&gt; -->
-		<!-- &lt;!&ndash; Advanced channels &ndash;&gt; -->
-		<!-- <channel id="version" typeId="version"/>&lt;!&ndash; Taken from ARSOverviewResult &ndash;&gt; -->
-		<!-- <channel id="category" typeId="category"/>&lt;!&ndash; Taken from Warning &ndash;&gt; -->
-		<!-- <channel id="sender" typeId="sender"/>&lt;!&ndash; Taken from Warning &ndash;&gt; -->
-		<!-- <channel id="status" typeId="status"/>&lt;!&ndash; Taken from Warning &ndash;&gt; -->
-		<!-- <channel id="scope" typeId="scope"/>&lt;!&ndash; Taken from Warning &ndash;&gt; -->
-		<!-- <channel id="identifier" typeId="identifier"/>&lt;!&ndash; Taken from Warning &ndash;&gt; -->
-		<!-- <channel id="certainty" typeId="certainty"/>&lt;!&ndash; Taken from Warning &ndash;&gt; -->
-		<!-- </channels> -->
-
 		<config-description>
 			<parameter name="ars" type="text" pattern="[0-9]{12}" required="true">
 				<label>ARS</label>
@@ -99,7 +80,7 @@
 	<channel-type id="identifier" advanced="true">
 		<item-type>String</item-type>
 		<label>Identifier</label>
-		<description></description>
+		<description>Identifier of warning</description>
 		<state readOnly="true"/>
 	</channel-type>
 	<channel-type id="sender" advanced="true">
@@ -129,7 +110,7 @@
 	<channel-type id="category" advanced="true">
 		<item-type>String</item-type>
 		<label>Category</label>
-		<description></description>
+		<description>Warning category</description>
 		<state readOnly="true"/>
 	</channel-type>
 	<channel-type id="event">

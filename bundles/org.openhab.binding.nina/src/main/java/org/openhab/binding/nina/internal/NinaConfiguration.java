@@ -31,24 +31,12 @@ public class NinaConfiguration {
         return serverUrl;
     }
 
-    public void setServerUrl(String serverUrl) {
-        this.serverUrl = serverUrl;
-    }
-
     public int getRefreshInterval() {
         return refreshInterval;
     }
 
-    public void setRefreshInterval(int refreshInterval) {
-        this.refreshInterval = refreshInterval;
-    }
-
     public String getArs() {
         return ars.substring(0, 5) + "0000000";
-    }
-
-    public void setArs(String ars) {
-        this.ars = ars;
     }
 
     public boolean isValid() {
