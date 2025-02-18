@@ -1,5 +1,7 @@
 package org.openhab.binding.nina.internal.model;
 
+import org.openhab.binding.nina.internal.model.NotfalltippsCollection;
+
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -34,7 +36,7 @@ public class Notfalltipps  {
       return false;
     }
     Notfalltipps notfalltipps = (Notfalltipps) o;
-    return Objects.equals(this.notfalltipps, notfalltipps.notfalltipps);
+    return Objects.equals(notfalltipps, notfalltipps.notfalltipps);
   }
 
   @Override

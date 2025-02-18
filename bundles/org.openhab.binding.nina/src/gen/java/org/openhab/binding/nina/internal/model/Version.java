@@ -76,7 +76,7 @@ public class Version  {
     }
     Version version = (Version) o;
     return Objects.equals(name, version.name) &&
-        Objects.equals(this.version, version.version) &&
+        Objects.equals(version, version.version) &&
         Objects.equals(hash, version.hash);
   }
 

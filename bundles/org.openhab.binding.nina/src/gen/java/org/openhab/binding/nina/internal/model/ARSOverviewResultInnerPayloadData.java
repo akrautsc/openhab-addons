@@ -2,6 +2,7 @@ package org.openhab.binding.nina.internal.model;
 
 import org.openhab.binding.nina.internal.model.ARSOverviewResultInnerPayloadDataArea;
 import org.openhab.binding.nina.internal.model.ARSOverviewResultInnerPayloadDataTransKeys;
+import org.openhab.binding.nina.internal.model.MsgType;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,7 +16,7 @@ public class ARSOverviewResultInnerPayloadData  {
 
   private String severity;
 
-  private String msgType;
+  private MsgType msgType = null;
 
   private ARSOverviewResultInnerPayloadDataTransKeys transKeys;
 
@@ -79,15 +80,15 @@ public class ARSOverviewResultInnerPayloadData  {
    * @return msgType
   **/
   @JsonProperty("msgType")
-  public String getMsgType() {
+  public MsgType getMsgType() {
     return msgType;
   }
 
-  public void setMsgType(String msgType) {
+  public void setMsgType(MsgType msgType) {
     this.msgType = msgType;
   }
 
-  public ARSOverviewResultInnerPayloadData msgType(String msgType) {
+  public ARSOverviewResultInnerPayloadData msgType(MsgType msgType) {
     this.msgType = msgType;
     return this;
   }

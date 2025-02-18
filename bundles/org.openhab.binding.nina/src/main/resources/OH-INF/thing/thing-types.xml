@@ -17,6 +17,18 @@
 					bezogen werden.
 				</description>
 			</parameter>
+			<parameter name="minNumberWarningSets" type="integer" required="true">
+				<label>Minimum number of Warnings sets</label>
+				<description>Minimum number of warning channel sets available.</description>
+				<default>0</default>
+				<advanced>true</advanced>
+			</parameter>
+			<parameter name="maxNumberWarningSets" type="integer" required="true">
+				<label>Maximum number of Warnings sets</label>
+				<description>Maximum number of warning channel sets shown. If set to 0 then an unlimited amount can be shown.</description>
+				<default>10</default>
+				<advanced>true</advanced>
+			</parameter>
 			<parameter name="serverUrl" type="text" required="true">
 				<context>network-address</context>
 				<label>Server URL</label>

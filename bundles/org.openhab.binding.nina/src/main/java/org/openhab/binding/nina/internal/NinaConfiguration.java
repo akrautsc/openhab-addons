@@ -24,11 +24,21 @@ import java.net.URL;
 public class NinaConfiguration {
 
     private String serverUrl;
+    private int minNumberWarningSets;
+    private int maxNumberWarningSets;
     private int refreshInterval;
     private String ars;
 
     public String getServerUrl() {
         return serverUrl;
+    }
+
+    public int getMinNumberWarningSets() {
+        return minNumberWarningSets;
+    }
+
+    public int getMaxNumberWarningSets() {
+        return maxNumberWarningSets;
     }
 
     public int getRefreshInterval() {

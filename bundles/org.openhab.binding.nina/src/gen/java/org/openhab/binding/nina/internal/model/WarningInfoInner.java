@@ -2,6 +2,7 @@ package org.openhab.binding.nina.internal.model;
 
 import java.util.Date;
 import java.util.List;
+import org.openhab.binding.nina.internal.model.Category;
 import org.openhab.binding.nina.internal.model.KeyValueArrayInner;
 import org.openhab.binding.nina.internal.model.WarningInfoInnerAreaInner;
 
@@ -11,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class WarningInfoInner  {
   
-  private List<String> category;
+  private List<Category> category;
 
   private String event;
 
@@ -41,20 +42,20 @@ public class WarningInfoInner  {
    * @return category
   **/
   @JsonProperty("category")
-  public List<String> getCategory() {
+  public List<Category> getCategory() {
     return category;
   }
 
-  public void setCategory(List<String> category) {
+  public void setCategory(List<Category> category) {
     this.category = category;
   }
 
-  public WarningInfoInner category(List<String> category) {
+  public WarningInfoInner category(List<Category> category) {
     this.category = category;
     return this;
   }
 
-  public WarningInfoInner addCategoryItem(String categoryItem) {
+  public WarningInfoInner addCategoryItem(Category categoryItem) {
     this.category.add(categoryItem);
     return this;
   }

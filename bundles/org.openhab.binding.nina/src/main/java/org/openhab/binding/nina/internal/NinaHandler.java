@@ -90,6 +90,8 @@ public class NinaHandler extends BaseThingHandler {
         currentChannelSets = getThing().getChannels().size() / channelMap.size();
         logger.trace("Channel sets existing during initialization: {}", currentChannelSets);
 
+        currentChannelSets = config.getMinNumberWarningSets();
+
         refreshJob = scheduler.scheduleWithFixedDelay(this::pollingArsOverviewResult, 0, config.getRefreshInterval(),
                 TimeUnit.SECONDS);
     }
@@ -137,7 +139,7 @@ public class NinaHandler extends BaseThingHandler {
         updateState(SEVERITY_CHANNEL + index,
                 new StringType(arsOverviewResultInner.getPayload().getData().getSeverity()));
         updateState(MSG_TYPE_CHANNEL + index,
-                new StringType(arsOverviewResultInner.getPayload().getData().getMsgType()));
+                new StringType(arsOverviewResultInner.getPayload().getData().getMsgType().toString()));
         updateState(SENT_CHANNEL + index,
                 new DateTimeType(arsOverviewResultInner.getSent().toInstant().atZone(ZoneId.systemDefault())));
         WarningInfoInner warningInfo = warning.getInfo().get(0);
@@ -146,8 +148,8 @@ public class NinaHandler extends BaseThingHandler {
         updateState(CATEGORY_CHANNEL + index, new StringType(warningInfo.getCategory().toString()));
         updateState(EVENT_CHANNEL + index, new StringType(warningInfo.getEvent()));
         updateState(SENDER_CHANNEL + index, new StringType(warning.getSender()));
-        updateState(STATUS_CHANNEL + index, new StringType(warning.getStatus()));
-        updateState(SCOPE_CHANNEL + index, new StringType(warning.getScope()));
+        updateState(STATUS_CHANNEL + index, new StringType(warning.getStatus().toString()));
+        updateState(SCOPE_CHANNEL + index, new StringType(warning.getScope().toString()));
         updateState(CERTAINTY_CHANNEL + index, new StringType(warningInfo.getCertainty()));
         updateState(IDENTIFIER_CHANNEL + index, new StringType(warning.getIdentifier()));
     }
@@ -195,11 +197,12 @@ public class NinaHandler extends BaseThingHandler {
     }
 
     private void createAndRemoveChannelSets(int numberChannelSets) {
-        for (int index = currentChannelSets + 1; index <= numberChannelSets; index++) {
+        int maxChannelSets = config.getMaxNumberWarningSets();
+        for (int index = currentChannelSets + 1; index <= numberChannelSets && index <= maxChannelSets; index++) {
             logger.debug("Create set {}", index);
             createChannelSet(index);
         }
-        for (int index = currentChannelSets; index > numberChannelSets; index--) {
+        for (int index = currentChannelSets; index > numberChannelSets && index > maxChannelSets; index--) {
             logger.debug("Remove set {}", index);
             clearChannelSet(index);
             removeChannelSet(index);

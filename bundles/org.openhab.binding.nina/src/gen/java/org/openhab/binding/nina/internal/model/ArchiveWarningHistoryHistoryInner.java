@@ -1,6 +1,7 @@
 package org.openhab.binding.nina.internal.model;
 
 import java.util.Date;
+import org.openhab.binding.nina.internal.model.MsgType;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,7 +11,7 @@ public class ArchiveWarningHistoryHistoryInner  {
   
   private String identifier;
 
-  private String msgType;
+  private MsgType msgType = null;
 
   private Date sent;
 
@@ -38,15 +39,15 @@ public class ArchiveWarningHistoryHistoryInner  {
    * @return msgType
   **/
   @JsonProperty("msgType")
-  public String getMsgType() {
+  public MsgType getMsgType() {
     return msgType;
   }
 
-  public void setMsgType(String msgType) {
+  public void setMsgType(MsgType msgType) {
     this.msgType = msgType;
   }
 
-  public ArchiveWarningHistoryHistoryInner msgType(String msgType) {
+  public ArchiveWarningHistoryHistoryInner msgType(MsgType msgType) {
     this.msgType = msgType;
     return this;
   }

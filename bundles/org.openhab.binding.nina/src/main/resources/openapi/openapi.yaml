@@ -530,8 +530,9 @@ components:
                     type: string
                     example: Minor
                   msgType:
-                    type: string
-                    example: Update
+                    $ref: "#/components/schemas/MsgType"
+#                    type: string
+#                    example: Update
                   transKeys:
                     type: object
                     properties:
@@ -1321,14 +1322,17 @@ Eine Einschränkung oder (zeitweise) Einstellung des RSS-Feeds ist z.B. für tec
           format: date-time
           example: 2021-09-24T13:37:35+02:00
         status:
-          type: string
-          example: Actual
+          $ref: "#/components/schemas/Status"
+#          type: string
+#          example: Actual
         msgType:
-          type: string
-          example: Alert
+          $ref: "#/components/schemas/MsgType"
+#          type: string
+#          example: Alert
         scope:
-          type: string
-          example: Public
+          $ref: "#/components/schemas/Scope"
+#          type: string
+#          example: Public
         code:
           type: array
           items:
@@ -1346,7 +1350,8 @@ Eine Einschränkung oder (zeitweise) Einstellung des RSS-Feeds ist z.B. für tec
               category:
                 type: array
                 items:
-                  type: string
+                  $ref: "#/components/schemas/Category"
+#                  type: string
                 example:
                   - Other
               event:
@@ -1419,8 +1424,9 @@ Eine Einschränkung oder (zeitweise) Einstellung des RSS-Feeds ist z.B. für tec
                 type: string
                 example: mow.DE-NI-OL-W015-20230121-001_20230121112659.json
               msgType:
-                type: string
-                example: ALERT
+                $ref: "#/components/schemas/MsgType"
+#                type: string
+#                example: ALERT
               sent:
                 type: string
                 format: date-time
@@ -1428,3 +1434,39 @@ Eine Einschränkung oder (zeitweise) Einstellung des RSS-Feeds ist z.B. für tec
               headline:
                 type: string
                 example: Rauchentwicklung und Geruchsbelästigung nach Großbrand - Westerstede, Halsbek
+    Status:
+      type: String
+      enum:
+        - Actual
+        - Exercise
+        - System
+        - Test
+        - Draft
+    MsgType:
+      type: String
+      enum:
+        - Alert
+        - Update
+        - Cancel
+        - Ack
+        - Error
+    Scope:
+      type: String
+      enum:
+        - Public
+        - Restricted
+        - Private
+    Category:
+      type: String
+      enum:
+        - Geo
+        - Met
+        - Safety
+        - Security
+        - Rescue
+        - Fire
+        - Health
+        - Env
+        - Transport
+        - Infra
+        - CBRNE

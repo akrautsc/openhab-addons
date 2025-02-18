@@ -2,6 +2,9 @@ package org.openhab.binding.nina.internal.model;
 
 import java.util.Date;
 import java.util.List;
+import org.openhab.binding.nina.internal.model.MsgType;
+import org.openhab.binding.nina.internal.model.Scope;
+import org.openhab.binding.nina.internal.model.Status;
 import org.openhab.binding.nina.internal.model.WarningInfoInner;
 
 import java.util.Objects;
@@ -19,11 +22,11 @@ public class Warning  {
 
   private Date sent;
 
-  private String status;
+  private Status status = null;
 
-  private String msgType;
+  private MsgType msgType = null;
 
-  private String scope;
+  private Scope scope = null;
 
   private List<String> code;
 
@@ -89,15 +92,15 @@ public class Warning  {
    * @return status
   **/
   @JsonProperty("status")
-  public String getStatus() {
+  public Status getStatus() {
     return status;
   }
 
-  public void setStatus(String status) {
+  public void setStatus(Status status) {
     this.status = status;
   }
 
-  public Warning status(String status) {
+  public Warning status(Status status) {
     this.status = status;
     return this;
   }
@@ -107,15 +110,15 @@ public class Warning  {
    * @return msgType
   **/
   @JsonProperty("msgType")
-  public String getMsgType() {
+  public MsgType getMsgType() {
     return msgType;
   }
 
-  public void setMsgType(String msgType) {
+  public void setMsgType(MsgType msgType) {
     this.msgType = msgType;
   }
 
-  public Warning msgType(String msgType) {
+  public Warning msgType(MsgType msgType) {
     this.msgType = msgType;
     return this;
   }
@@ -125,15 +128,15 @@ public class Warning  {
    * @return scope
   **/
   @JsonProperty("scope")
-  public String getScope() {
+  public Scope getScope() {
     return scope;
   }
 
-  public void setScope(String scope) {
+  public void setScope(Scope scope) {
     this.scope = scope;
   }
 
-  public Warning scope(String scope) {
+  public Warning scope(Scope scope) {
     this.scope = scope;
     return this;
   }
