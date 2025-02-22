@@ -481,8 +481,7 @@ components:
             format: date-time
             example: 2021-07-10T11:57:33+02:00
           severity:
-            type: string
-            example: Severe
+            $ref: "#/components/schemas/Severity"
           type:
             type: string
             example: Alert
@@ -527,8 +526,7 @@ components:
                     type: string
                     example: MOWAS
                   severity:
-                    type: string
-                    example: Minor
+                    $ref: "#/components/schemas/Severity"
                   msgType:
                     $ref: "#/components/schemas/MsgType"
 #                    type: string
@@ -1323,16 +1321,10 @@ Eine Einschränkung oder (zeitweise) Einstellung des RSS-Feeds ist z.B. für tec
           example: 2021-09-24T13:37:35+02:00
         status:
           $ref: "#/components/schemas/Status"
-#          type: string
-#          example: Actual
         msgType:
           $ref: "#/components/schemas/MsgType"
-#          type: string
-#          example: Alert
         scope:
           $ref: "#/components/schemas/Scope"
-#          type: string
-#          example: Public
         code:
           type: array
           items:
@@ -1351,18 +1343,15 @@ Eine Einschränkung oder (zeitweise) Einstellung des RSS-Feeds ist z.B. für tec
                 type: array
                 items:
                   $ref: "#/components/schemas/Category"
-#                  type: string
                 example:
                   - Other
               event:
                 type: string
                 example: Sonderfall
               urgency:
-                type: string
-                example: Unknown
+                $ref: "#/components/schemas/Urgency"
               severity:
-                type: string
-                example: Severe
+                $ref: "#/components/schemas/Severity"
               certainty:
                 type: string
                 example: Unknown
@@ -1425,8 +1414,6 @@ Eine Einschränkung oder (zeitweise) Einstellung des RSS-Feeds ist z.B. für tec
                 example: mow.DE-NI-OL-W015-20230121-001_20230121112659.json
               msgType:
                 $ref: "#/components/schemas/MsgType"
-#                type: string
-#                example: ALERT
               sent:
                 type: string
                 format: date-time
@@ -1470,3 +1457,19 @@ Eine Einschränkung oder (zeitweise) Einstellung des RSS-Feeds ist z.B. für tec
         - Transport
         - Infra
         - CBRNE
+    Severity:
+      type: String
+      enum:
+        - Extreme
+        - Severe
+        - Moderate
+        - Minor
+        - Unknown
+    Urgency:
+      type: String
+      enum:
+        - Immediate
+        - Expected
+        - Future
+        - Past
+        - Unknown

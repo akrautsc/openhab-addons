@@ -74,10 +74,10 @@ public class Version  {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Version version = (Version) o;
-    return Objects.equals(name, version.name) &&
-        Objects.equals(version, version.version) &&
-        Objects.equals(hash, version.hash);
+    Version version1 = (Version) o;
+    return Objects.equals(name, version1.name) &&
+        Objects.equals(version, version1.version) &&
+        Objects.equals(hash, version1.hash);
   }
 
   @Override

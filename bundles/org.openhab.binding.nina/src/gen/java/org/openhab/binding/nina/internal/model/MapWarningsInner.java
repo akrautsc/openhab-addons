@@ -8,14 +8,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class MapWarningsInner  {
-  
+
   private String id;
 
   private Integer version;
 
   private Date startDate;
 
-  private String severity;
+  private Severity severity = null;
 
   private String type;
 
@@ -79,15 +79,15 @@ public class MapWarningsInner  {
    * @return severity
   **/
   @JsonProperty("severity")
-  public String getSeverity() {
+  public Severity getSeverity() {
     return severity;
   }
 
-  public void setSeverity(String severity) {
+  public void setSeverity(Severity severity) {
     this.severity = severity;
   }
 
-  public MapWarningsInner severity(String severity) {
+  public MapWarningsInner severity(Severity severity) {
     this.severity = severity;
     return this;
   }

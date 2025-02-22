@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import org.openhab.binding.nina.internal.model.Category;
 import org.openhab.binding.nina.internal.model.KeyValueArrayInner;
+import org.openhab.binding.nina.internal.model.Severity;
+import org.openhab.binding.nina.internal.model.Urgency;
 import org.openhab.binding.nina.internal.model.WarningInfoInnerAreaInner;
 
 import java.util.Objects;
@@ -11,14 +13,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class WarningInfoInner  {
-  
+
   private List<Category> category;
 
   private String event;
 
-  private String urgency;
+  private Urgency urgency = null;
 
-  private String severity;
+  private Severity severity = null;
 
   private String certainty;
 
@@ -83,15 +85,15 @@ public class WarningInfoInner  {
    * @return urgency
   **/
   @JsonProperty("urgency")
-  public String getUrgency() {
+  public Urgency getUrgency() {
     return urgency;
   }
 
-  public void setUrgency(String urgency) {
+  public void setUrgency(Urgency urgency) {
     this.urgency = urgency;
   }
 
-  public WarningInfoInner urgency(String urgency) {
+  public WarningInfoInner urgency(Urgency urgency) {
     this.urgency = urgency;
     return this;
   }
@@ -101,15 +103,15 @@ public class WarningInfoInner  {
    * @return severity
   **/
   @JsonProperty("severity")
-  public String getSeverity() {
+  public Severity getSeverity() {
     return severity;
   }
 
-  public void setSeverity(String severity) {
+  public void setSeverity(Severity severity) {
     this.severity = severity;
   }
 
-  public WarningInfoInner severity(String severity) {
+  public WarningInfoInner severity(Severity severity) {
     this.severity = severity;
     return this;
   }

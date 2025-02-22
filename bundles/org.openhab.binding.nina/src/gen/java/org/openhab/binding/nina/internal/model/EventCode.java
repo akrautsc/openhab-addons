@@ -57,9 +57,9 @@ public class EventCode  {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    EventCode eventCode = (EventCode) o;
-    return Objects.equals(eventCode, eventCode.eventCode) &&
-        Objects.equals(image, eventCode.image);
+    EventCode eventCode1 = (EventCode) o;
+    return Objects.equals(eventCode, eventCode1.eventCode) &&
+        Objects.equals(image, eventCode1.image);
   }
 
   @Override

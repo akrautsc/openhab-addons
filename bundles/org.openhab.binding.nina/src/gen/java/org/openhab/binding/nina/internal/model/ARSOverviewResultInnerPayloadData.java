@@ -9,12 +9,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class ARSOverviewResultInnerPayloadData  {
-  
+
   private String headline;
 
   private String provider;
 
-  private String severity;
+  private Severity severity = null;
 
   private MsgType msgType = null;
 
@@ -62,15 +62,15 @@ public class ARSOverviewResultInnerPayloadData  {
    * @return severity
   **/
   @JsonProperty("severity")
-  public String getSeverity() {
+  public Severity getSeverity() {
     return severity;
   }
 
-  public void setSeverity(String severity) {
+  public void setSeverity(Severity severity) {
     this.severity = severity;
   }
 
-  public ARSOverviewResultInnerPayloadData severity(String severity) {
+  public ARSOverviewResultInnerPayloadData severity(Severity severity) {
     this.severity = severity;
     return this;
   }

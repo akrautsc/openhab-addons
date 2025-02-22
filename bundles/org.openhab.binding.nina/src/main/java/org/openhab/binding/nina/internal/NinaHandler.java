@@ -137,14 +137,14 @@ public class NinaHandler extends BaseThingHandler {
         updateState(PROVIDER_CHANNEL + index,
                 new StringType(arsOverviewResultInner.getPayload().getData().getProvider()));
         updateState(SEVERITY_CHANNEL + index,
-                new StringType(arsOverviewResultInner.getPayload().getData().getSeverity()));
+                new StringType(arsOverviewResultInner.getPayload().getData().getSeverity().toString()));
         updateState(MSG_TYPE_CHANNEL + index,
                 new StringType(arsOverviewResultInner.getPayload().getData().getMsgType().toString()));
         updateState(SENT_CHANNEL + index,
                 new DateTimeType(arsOverviewResultInner.getSent().toInstant().atZone(ZoneId.systemDefault())));
         WarningInfoInner warningInfo = warning.getInfo().get(0);
         updateState(DESCRIPTION_CHANNEL + index, new StringType(warningInfo.getDescription()));
-        updateState(URGENCY_CHANNEL + index, new StringType(warningInfo.getUrgency()));
+        updateState(URGENCY_CHANNEL + index, new StringType(warningInfo.getUrgency().toString()));
         updateState(CATEGORY_CHANNEL + index, new StringType(warningInfo.getCategory().toString()));
         updateState(EVENT_CHANNEL + index, new StringType(warningInfo.getEvent()));
         updateState(SENDER_CHANNEL + index, new StringType(warning.getSender()));

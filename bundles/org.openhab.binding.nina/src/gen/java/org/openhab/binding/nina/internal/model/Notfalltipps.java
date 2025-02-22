@@ -35,8 +35,8 @@ public class Notfalltipps  {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Notfalltipps notfalltipps = (Notfalltipps) o;
-    return Objects.equals(notfalltipps, notfalltipps.notfalltipps);
+    Notfalltipps notfalltipps1 = (Notfalltipps) o;
+    return Objects.equals(notfalltipps, notfalltipps1.notfalltipps);
   }
 
   @Override
