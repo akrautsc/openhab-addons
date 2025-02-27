@@ -124,25 +124,24 @@ public class NinaHandler extends BaseThingHandler {
             ARSOverviewResultInner arsOverviewResultInner = arsOverviewResult[index];
             Warning warning = sendRequest(
                     config.getServerUrl() + "/warnings/" + arsOverviewResultInner.getId() + ".json", Warning.class);
+            logger.debug("{}", arsOverviewResultInner.toString());
+            logger.debug("{}", warning.toString());
             updateChannelSet(arsOverviewResultInner, warning, index + 1);
         }
     }
 
     private void updateChannelSet(ARSOverviewResultInner arsOverviewResultInner, Warning warning, int index) {
         logger.debug("Update channel set {}", index);
-        updateState(HEADLINE_CHANNEL + index,
-                new StringType(arsOverviewResultInner.getPayload().getData().getHeadline()));
         updateState(VERSION_CHANNEL + index, new DecimalType(arsOverviewResultInner.getPayload().getVersion()));
-        updateState(TYPE_CHANNEL + index, new StringType(arsOverviewResultInner.getPayload().getData().getHeadline()));
         updateState(PROVIDER_CHANNEL + index,
                 new StringType(arsOverviewResultInner.getPayload().getData().getProvider()));
-        updateState(SEVERITY_CHANNEL + index,
-                new StringType(arsOverviewResultInner.getPayload().getData().getSeverity().toString()));
-        updateState(MSG_TYPE_CHANNEL + index,
-                new StringType(arsOverviewResultInner.getPayload().getData().getMsgType().toString()));
-        updateState(SENT_CHANNEL + index,
-                new DateTimeType(arsOverviewResultInner.getSent().toInstant().atZone(ZoneId.systemDefault())));
         WarningInfoInner warningInfo = warning.getInfo().get(0);
+
+        updateState(SENT_CHANNEL + index,
+                new DateTimeType(warning.getSent().toInstant().atZone(ZoneId.systemDefault())));
+        updateState(HEADLINE_CHANNEL + index, new StringType(warningInfo.getHeadline()));
+        updateState(SEVERITY_CHANNEL + index, new StringType(warningInfo.getSeverity().toString()));
+        updateState(MSG_TYPE_CHANNEL + index, new StringType(warning.getMsgType().toString()));
         updateState(DESCRIPTION_CHANNEL + index, new StringType(warningInfo.getDescription()));
         updateState(URGENCY_CHANNEL + index, new StringType(warningInfo.getUrgency().toString()));
         updateState(CATEGORY_CHANNEL + index, new StringType(warningInfo.getCategory().toString()));
@@ -158,7 +157,6 @@ public class NinaHandler extends BaseThingHandler {
         logger.debug("Clear channel set {}", index);
         updateState(HEADLINE_CHANNEL + index, StringType.EMPTY);
         updateState(VERSION_CHANNEL + index, DecimalType.ZERO);
-        updateState(TYPE_CHANNEL + index, StringType.EMPTY);
         updateState(PROVIDER_CHANNEL + index, StringType.EMPTY);
         updateState(SEVERITY_CHANNEL + index, StringType.EMPTY);
         updateState(MSG_TYPE_CHANNEL + index, StringType.EMPTY);

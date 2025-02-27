@@ -35,7 +35,6 @@ public class NinaBindingConstants {
     // List of all Channel ids
     public static final String WARNING_CHANNEL = "warning";
     public static final String VERSION_CHANNEL = "version";
-    public static final String TYPE_CHANNEL = "type";
     public static final String HEADLINE_CHANNEL = "headline";
     public static final String DESCRIPTION_CHANNEL = "description";
     public static final String PROVIDER_CHANNEL = "provider";
@@ -55,7 +54,6 @@ public class NinaBindingConstants {
     static {
         channelMap.put(HEADLINE_CHANNEL, "Headline");
         channelMap.put(VERSION_CHANNEL, "Version");
-        channelMap.put(TYPE_CHANNEL, "Type");
         channelMap.put(PROVIDER_CHANNEL, "Provider");
         channelMap.put(SEVERITY_CHANNEL, "Severity");
         channelMap.put(MSG_TYPE_CHANNEL, "MsgType");

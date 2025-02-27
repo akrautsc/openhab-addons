@@ -53,10 +53,10 @@
 		<description>Version of warning.</description>
 		<state readOnly="true"/>
 	</channel-type>
-	<channel-type id="type">
+	<channel-type id="provider" advanced="true">
 		<item-type>String</item-type>
-		<label>type</label>
-		<description>Warning type.</description>
+		<label>Provider</label>
+		<description>Warning provider</description>
 		<state readOnly="true"/>
 	</channel-type>
 	<channel-type id="headline">
@@ -71,12 +71,6 @@
 		<description>Warning description</description>
 		<state readOnly="true"/>
 	</channel-type>
-	<channel-type id="provider">
-		<item-type>String</item-type>
-		<label>Provider</label>
-		<description>Warning provider</description>
-		<state readOnly="true"/>
-	</channel-type>
 	<channel-type id="severity">
 		<item-type>String</item-type>
 		<label>Severity</label>
@@ -86,7 +80,7 @@
 	<channel-type id="msgType">
 		<item-type>String</item-type>
 		<label>Message Type</label>
-		<description>Message type of warning.</description>
+		<description>Type of warning Message.</description>
 		<state readOnly="true"/>
 	</channel-type>
 	<channel-type id="identifier" advanced="true">
@@ -107,7 +101,7 @@
 		<description></description>
 		<state readOnly="true"/>
 	</channel-type>
-	<channel-type id="status" advanced="true">
+	<channel-type id="status">
 		<item-type>String</item-type>
 		<label>Status</label>
 		<description></description>
@@ -137,16 +131,10 @@
 		<description></description>
 		<state readOnly="true"/>
 	</channel-type>
-	<channel-type id="certainty" advanced="true">
+	<channel-type id="certainty">
 		<item-type>String</item-type>
 		<label>Certainty</label>
 		<description></description>
-		<state readOnly="true"/>
-	</channel-type>
-	<channel-type id="TEST">
-		<item-type>String</item-type>
-		<label>TEST</label>
-		<description>TEST</description>
 		<state readOnly="true"/>
 	</channel-type>
 </thing:thing-descriptions>
